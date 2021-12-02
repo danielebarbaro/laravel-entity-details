@@ -2,9 +2,9 @@
 
 namespace Danielebarbaro\UserDetail\Tests;
 
+use Danielebarbaro\UserDetail\UserDetailServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Danielebarbaro\UserDetail\UserDetailServiceProvider;
 
 class TestCase extends Orchestra
 {

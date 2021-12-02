@@ -2,9 +2,9 @@
 
 namespace Danielebarbaro\UserDetail;
 
+use Danielebarbaro\UserDetail\Commands\UserDetailCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Danielebarbaro\UserDetail\Commands\UserDetailCommand;
 
 class UserDetailServiceProvider extends PackageServiceProvider
 {
