@@ -17,9 +17,9 @@ class UserDetailServiceProvider extends PackageServiceProvider
          */
         $package
             ->name('laravel-user-details')
-            ->hasConfigFile()
-            ->hasViews()
-            ->hasMigration('create_laravel-user-details_table')
-            ->hasCommand(UserDetailCommand::class);
+            ->hasConfigFile();
+//            ->hasViews()
+//            ->hasMigration('create_laravel-user-details_table')
+//            ->hasCommand(UserDetailCommand::class);
     }
 }
