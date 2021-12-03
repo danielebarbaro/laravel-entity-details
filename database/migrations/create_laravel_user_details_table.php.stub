@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create(config('user-details.table_name'), function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->nullableMorphs('owner', 'owner');
+            $table->nullableMorphs('detail', 'owner');
             $table->boolean('is_company', false)->default(false);
             $table->string('status', 20)->nullable();
             $table->string('code', 10)->nullable();

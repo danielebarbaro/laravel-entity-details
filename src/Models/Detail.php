@@ -1,5 +1,7 @@
 <?php
 
+namespace Danielebarbaro\UserDetail\Models;
+
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -27,7 +29,6 @@ class Detail extends Model
         if (config('user-details.returns_soft_deleted_models')) {
             return $this->morphTo()->withTrashed();
         }
-
         return $this->morphTo();
     }
 
