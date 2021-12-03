@@ -2,8 +2,8 @@
 
 namespace Danielebarbaro\UserDetail\Facades;
 
-use Illuminate\Support\Facades\Facade;
 use Danielebarbaro\UserDetail\UserDetail as UserDetailClass;
+use Illuminate\Support\Facades\Facade;
 
 /**
  * @see \Danielebarbaro\UserDetail\UserDetail
