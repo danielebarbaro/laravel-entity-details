@@ -29,6 +29,7 @@ class Detail extends Model
         if (config('entity-details.returns_soft_deleted_models')) {
             return $this->morphTo()->withTrashed();
         }
+
         return $this->morphTo(__FUNCTION__, 'owner_type', 'owner_id');
     }
 

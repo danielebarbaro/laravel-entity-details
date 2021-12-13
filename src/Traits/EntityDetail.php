@@ -30,7 +30,7 @@ trait EntityDetail
             $attributeName[] = $relatedModelName = static::getRelatedModelRelationName($relatedModel, array_shift($relatedModelNames));
 
             $relatedModel = $relatedModel->$relatedModelName ?? $relatedModel->$relatedModelName();
-        } while (!empty($relatedModelNames));
+        } while (! empty($relatedModelNames));
 
         $attributeName[] = $relatedAttribute;
 
