@@ -8,9 +8,10 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create(config('user-details.table_name'), function (Blueprint $table) {
+        Schema::create(config('entity-details.table_name'), function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->nullableMorphs('detail', 'owner');
+            $table->nullableMorphs('owner');
+            $table->unique(['owner_id', 'owner_type']);
             $table->boolean('is_company', false)->default(false);
             $table->string('status', 20)->nullable();
             $table->string('code', 10)->nullable();
@@ -26,7 +27,7 @@ return new class extends Migration
             $table->string('vat', 13)->nullable();
             $table->string('address')->nullable();
             $table->string('postal_code', 6)->nullable();
-            $table->string('city', 10)->nullable();
+            $table->string('city', 30)->nullable();
             $table->string('country', 2)->nullable();
             $table->text('notes')->nullable();
             $table->timestamps();
@@ -36,6 +37,6 @@ return new class extends Migration
 
     public function down()
     {
-        Schema::dropIfExists(config('user-details.table_name'));
+        Schema::dropIfExists(config('entity-details.table_name'));
     }
 };

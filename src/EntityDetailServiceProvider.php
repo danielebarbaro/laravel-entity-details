@@ -1,11 +1,11 @@
 <?php
 
-namespace Danielebarbaro\UserDetail;
+namespace Danielebarbaro\EntityDetail;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class UserDetailServiceProvider extends PackageServiceProvider
+class EntityDetailServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
@@ -15,8 +15,8 @@ class UserDetailServiceProvider extends PackageServiceProvider
          * More info: https://github.com/spatie/laravel-package-tools
          */
         $package
-            ->name('laravel-user-details')
+            ->name('laravel-entity-details')
             ->hasConfigFile()
-            ->hasMigration('create_laravel_user_details_table');
+            ->hasMigration('create_laravel_entity_details_table');
     }
 }

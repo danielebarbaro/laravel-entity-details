@@ -1,18 +1,18 @@
 <?php
 
-namespace Danielebarbaro\UserDetail\Traits;
+namespace Danielebarbaro\EntityDetail\Traits;
 
-use Danielebarbaro\UserDetail\Models\Detail;
+use Danielebarbaro\EntityDetail\Models\Detail;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-trait UserDetail
+trait EntityDetail
 {
-    public function details(): MorphMany
+    public function detail(): MorphOne
     {
-        return $this->morphMany(
+        return $this->morphOne(
             Detail::class,
             'owner',
         );

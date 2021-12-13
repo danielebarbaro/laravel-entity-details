@@ -1,8 +1,8 @@
 <?php
 
-namespace Danielebarbaro\UserDetail\Database\Factories;
+namespace Danielebarbaro\EntityDetail\Database\Factories;
 
-use Detail;
+use Danielebarbaro\EntityDetail\Models\Detail;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class DetailFactory extends Factory

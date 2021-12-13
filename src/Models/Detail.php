@@ -1,6 +1,6 @@
 <?php
 
-namespace Danielebarbaro\UserDetail\Models;
+namespace Danielebarbaro\EntityDetail\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,7 +18,7 @@ class Detail extends Model
     public function __construct(array $attributes = [])
     {
         if (! isset($this->table)) {
-            $this->setTable(config('user-details.table_name'));
+            $this->setTable(config('entity-details.table_name'));
         }
 
         parent::__construct($attributes);
@@ -26,10 +26,10 @@ class Detail extends Model
 
     public function owner(): MorphTo
     {
-        if (config('user-details.returns_soft_deleted_models')) {
+        if (config('entity-details.returns_soft_deleted_models')) {
             return $this->morphTo()->withTrashed();
         }
-        return $this->morphTo();
+        return $this->morphTo(__FUNCTION__, 'owner_type', 'owner_id');
     }
 
     public function scopeForOwner(Builder $query, Model $owner): Builder
@@ -37,5 +37,11 @@ class Detail extends Model
         return $query
             ->where('owner_type', $owner->getMorphClass())
             ->where('owner_id', $owner->getKey());
+    }
+
+    public function scopeIsCompany(Builder $query): Builder
+    {
+        return $query
+            ->where('is_company', true);
     }
 }

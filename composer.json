@@ -1,12 +1,12 @@
 {
-    "name": "danielebarbaro/laravel-user-details",
+    "name": "danielebarbaro/laravel-entity-details",
     "description": "This package provide a list of common fields for a User entity",
     "keywords": [
         "danielebarbaro",
         "laravel",
-        "laravel-user-details"
+        "laravel-entity-details"
     ],
-    "homepage": "https://github.com/danielebarbaro/laravel-user-details",
+    "homepage": "https://github.com/danielebarbaro/laravel-entity-details",
     "license": "MIT",
     "authors": [
         {
@@ -34,13 +34,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Danielebarbaro\\UserDetail\\": "src",
-            "Danielebarbaro\\UserDetail\\Database\\Factories\\": "database/factories"
+            "Danielebarbaro\\EntityDetail\\": "src",
+            "Danielebarbaro\\EntityDetail\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Danielebarbaro\\UserDetail\\Tests\\": "tests"
+            "Danielebarbaro\\EntityDetail\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -56,10 +56,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Danielebarbaro\\UserDetail\\UserDetailServiceProvider"
+                "Danielebarbaro\\EntityDetail\\EntityDetailServiceProvider"
             ],
             "aliases": {
-                "UserDetail": "Danielebarbaro\\UserDetail\\Facades\\UserDetail"
+                "EntityDetail": "Danielebarbaro\\EntityDetail\\Facades\\EntityDetail"
             }
         }
     },

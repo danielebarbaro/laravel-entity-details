@@ -1,8 +1,7 @@
 <?php
 
-namespace Danielebarbaro\UserDetail\Tests;
+namespace Danielebarbaro\EntityDetail\Tests;
 
-use Danielebarbaro\UserDetail\UserDetailServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
 
@@ -13,14 +12,14 @@ class TestCase extends Orchestra
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Danielebarbaro\\UserDetail\\Database\\Factories\\'.class_basename($modelName).'Factory'
+            fn (string $modelName) => 'Danielebarbaro\\EntityDetail\\Database\\Factories\\'.class_basename($modelName).'Factory'
         );
     }
 
     protected function getPackageProviders($app)
     {
         return [
-            UserDetailServiceProvider::class,
+            EntityDetailServiceProvider::class,
         ];
     }
 
@@ -29,7 +28,7 @@ class TestCase extends Orchestra
         config()->set('database.default', 'testing');
 
         /*
-        $migration = include __DIR__.'/../database/migrations/create_laravel-user-details_table.php.stub';
+        $migration = include __DIR__.'/../database/migrations/create_laravel-entity-details_table.php.stub';
         $migration->up();
         */
     }
