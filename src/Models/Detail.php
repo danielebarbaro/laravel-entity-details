@@ -17,20 +17,19 @@ class Detail extends Model
 
     public function __construct(array $attributes = [])
     {
-        if (! isset($this->table)) {
-            $this->setTable(config('entity-details.table_name'));
-        }
-
+        $this->setTable(config('entity-details.table_name'));
         parent::__construct($attributes);
     }
 
     public function owner(): MorphTo
     {
+        $relation = $this->morphTo(__FUNCTION__, 'owner_type', 'owner_id');
         if (config('entity-details.returns_soft_deleted_models')) {
-            return $this->morphTo()->withTrashed();
+            /** @phpstan-ignore-next-line */
+            return $relation->withTrashed();
         }
 
-        return $this->morphTo(__FUNCTION__, 'owner_type', 'owner_id');
+        return $relation;
     }
 
     public function scopeForOwner(Builder $query, Model $owner): Builder

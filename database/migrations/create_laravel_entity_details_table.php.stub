@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create(config('entity-details.table_name'), function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->nullableMorphs('owner');
-            $table->unique(['owner_id', 'owner_type']);
+            $table->unique(['owner_id', 'owner_type', 'deleted_at']);
             $table->boolean('is_company', false)->default(false);
             $table->string('status', 20)->nullable();
             $table->string('code', 10)->nullable();

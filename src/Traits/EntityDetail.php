@@ -9,9 +9,13 @@ trait EntityDetail
 {
     public function detail(): MorphOne
     {
-        return $this->morphOne(
-            Detail::class,
-            'owner',
-        );
+        $relation = $this->morphOne(Detail::class, 'owner');
+
+        if (config('entity-details.returns_soft_deleted_models')) {
+            /** @phpstan-ignore-next-line */
+            return $relation->withTrashed();
+        }
+
+        return $relation;
     }
 }
