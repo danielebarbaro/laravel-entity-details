@@ -24,11 +24,11 @@ class DetailFactory extends Factory
             'phone' => $this->faker->phoneNumber,
             'mobile' => $this->faker->phoneNumber,
             'fiscal_code' => $this->faker->text(),
-            'vat' => $this->faker->vat,
+            'vat' => 'IT10101010011',
             'address' => $this->faker->address,
-            'postal_code' => $this->faker->postcode,
+            'postal_code' => '12345',
             'city' => $this->faker->city,
-            'country' => $this->faker->countryCode,
+            'country' => 'IT',
             'notes' => $this->faker->text(100),
         ];
     }

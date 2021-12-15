@@ -15,7 +15,7 @@ return new class extends Migration
             $table->boolean('is_company', false)->default(false);
             $table->string('status', 20)->nullable();
             $table->string('code', 10)->nullable();
-            $table->string('name', 100)->nullable();
+            $table->string('name', 100);
             $table->string('secondary_email', 50)->nullable();
             $table->string('sdi', 7)->nullable();
             $table->string('pec', 50)->nullable();
