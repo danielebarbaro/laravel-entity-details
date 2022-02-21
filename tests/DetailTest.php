@@ -236,4 +236,72 @@ class DetailTest extends TestCase
         $test_model->fresh('detail');
         $this->assertCount(1, TestModel::all());
     }
+
+    /** @test */
+    public function it_can_sync_detail_on_a_existing_model()
+    {
+        TestModel::create([
+            'property' => 'dummy',
+        ]);
+
+        $test_model = TestModel::first();
+
+        $this->assertCount(1, TestModel::all());
+
+        $test_model->syncDetail([
+            'is_company' => true,
+            'status' => 1,
+            'code' => 'CODE',
+            'name' => 'DUMMY COMPANY',
+        ]);
+
+        $detail = $test_model->fresh('detail')->detail;
+
+        $this->assertCount(1, Detail::all());
+
+        $detail_from_database = Detail::first();
+
+        $this->assertSame($detail_from_database->toArray(), $detail->toArray());
+        $this->assertSame('CODE', $detail->code);
+        $this->assertSame('DUMMY COMPANY', $detail->name);
+        $this->assertSame(TestModel::class, $detail->owner_type);
+    }
+
+    /** @test */
+    public function it_can_update_detail_with_sync_detail()
+    {
+        $test_model = TestModel::create([
+            'property' => 'dummy',
+        ]);
+
+        $this->assertCount(1, TestModel::all());
+
+        $test_model->syncDetail([
+            'is_company' => true,
+            'status' => 1,
+            'code' => 'CODE',
+            'name' => 'DUMMY COMPANY',
+        ]);
+
+        $detail = $test_model->fresh('detail')->detail;
+
+        $this->assertCount(1, Detail::all());
+
+        $this->assertSame('CODE', $detail->code);
+        $this->assertSame('DUMMY COMPANY', $detail->name);
+        $this->assertSame(TestModel::class, $detail->owner_type);
+        $this->assertSame(1, $detail->owner_id);
+
+        $test_model->syncDetail([
+            'is_company' => true,
+            'status' => 1,
+            'code' => 'CODE II',
+            'name' => 'DUMMY COMPANY EDITED',
+        ]);
+
+        $detail = $test_model->fresh('detail')->detail;
+
+        $this->assertSame('CODE II', $detail->code);
+        $this->assertSame('DUMMY COMPANY EDITED', $detail->name);
+    }
 }
