@@ -2,6 +2,7 @@
 
 namespace Danielebarbaro\EntityDetail\Tests;
 
+use Danielebarbaro\EntityDetail\Exceptions\ValidateDetailException;
 use Danielebarbaro\EntityDetail\Models\Detail;
 use Danielebarbaro\EntityDetail\Tests\helper\TestModel;
 use Illuminate\Database\QueryException;
@@ -185,5 +186,54 @@ class DetailTest extends TestCase
         $this->assertCount(1, $for_owner_data);
         $this->assertCount(1, Detail::all());
         $this->assertSame('IT10101010011', $for_owner_data->first()->vat);
+    }
+
+    /** @test */
+    public function it_can_sync_detail()
+    {
+        $test_model = new TestModel();
+        $test_model->create([
+            'id' => 1,
+            'property' => 'dummy',
+        ]);
+
+        $test_model->syncDetail([
+            'is_company' => true,
+            'status' => 1,
+            'code' => 'CODE',
+            'name' => 'DUMMY COMPANY',
+        ]);
+
+        $test_model->fresh('detail');
+        $this->assertCount(1, TestModel::all());
+        $this->assertCount(1, Detail::all());
+
+        $detail = Detail::first();
+
+        $this->assertSame('CODE', $detail->code);
+        $this->assertSame('DUMMY COMPANY', $detail->name);
+        $this->assertSame(TestModel::class, $detail->owner_type);
+    }
+
+    /** @test
+     * @expectException ValidateDetailException
+     */
+    public function it_can_not_sync_detail()
+    {
+        $this->expectException(ValidateDetailException::class);
+
+        $test_model = new TestModel();
+        $test_model->create([
+            'id' => 1,
+            'property' => 'dummy',
+        ]);
+
+        $test_model->syncDetail([
+            'is_company' => 'A DUMMY STRING FALSE',
+            'status' => 1,
+        ]);
+
+        $test_model->fresh('detail');
+        $this->assertCount(1, TestModel::all());
     }
 }
