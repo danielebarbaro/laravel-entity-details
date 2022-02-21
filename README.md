@@ -1,29 +1,11 @@
-# This package provide a list of common fields for a User entity
+# Entity detail helper
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/danielebarbaro/laravel-entity-details.svg?style=flat-square)](https://packagist.org/packages/danielebarbaro/laravel-entity-details)
 [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/danielebarbaro/laravel-entity-details/run-tests?label=tests)](https://github.com/danielebarbaro/laravel-entity-details/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/danielebarbaro/laravel-entity-details/Check%20&%20fix%20styling?label=code%20style)](https://github.com/danielebarbaro/laravel-entity-details/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/danielebarbaro/laravel-entity-details.svg?style=flat-square)](https://packagist.org/packages/danielebarbaro/laravel-entity-details)
 
----
-This repo can be used to scaffold a Laravel package. Follow these steps to get started:
-
-1. Press the "Use template" button at the top of this repo to create a new repo with the contents of this laravel-entity-details
-2. Run "php ./configure.php" to run a script that will replace all placeholders throughout all the files
-3. Remove this block of text.
-4. Have fun creating your package.
-5. If you need help creating a package, consider picking up our <a href="https://laravelpackage.training">Laravel Package Training</a> video course.
----
-
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
-
-## Support us
-
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/laravel-entity-details.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/laravel-entity-details)
-
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
+laravel-entity-details is a package to create and attach some details to a generic Model in a blink of an eye 😎
 
 ## Installation
 
@@ -36,34 +18,150 @@ composer require danielebarbaro/laravel-entity-details
 You can publish and run the migrations with:
 
 ```bash
-php artisan vendor:publish --tag="laravel-entity-details_without_prefix-migrations"
+php artisan vendor:publish --tag="entity-details-migrations"
 php artisan migrate
 ```
 
 You can publish the config file with:
 ```bash
-php artisan vendor:publish --tag="laravel-entity-details_without_prefix-config"
+php artisan vendor:publish --tag="entity-details-config"
 ```
 
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag="example-views"
-```
 
 This is the contents of the published config file:
 
 ```php
 return [
+    'table_name' => env('ENTITYDETAIL_TABLE_NAME', 'entity_details'),
+    'returns_soft_deleted_models' => env('ENTITYDETAIL_SOFTDETED_ENABLE', false),
 ];
 ```
 
 ## Usage
 
+Add the traits `EntityDetail` and `EntityDetailHydrate` in your related Model:
+
 ```php
-$laravel-entity-details = new Danielebarbaro\EntityDetail();
-echo $laravel-entity-details->echoPhrase('Hello, Danielebarbaro!');
+class User extends Authenticatable
+{
+    [...]
+    use EntityDetail, EntityDetailHydrate;
+    [...]
+}
+
+[...]
+
+class Biker extends Model
+{
+    [...]
+    use EntityDetail, EntityDetailHydrate;
+    [...]
+}
+
+[...]
+
+class Company extends Model
+{
+    [...]
+    use EntityDetail, EntityDetailHydrate;
+    [...]
+}
 ```
+
+In your `Controller` you can simply save or update detail with the method `syncDetail($detail)`:  
+```php
+    [...]
+    $user = User::create([
+        'name' => 'John',
+        'email' => 'Doe',
+        'password' => Hash::make('password')
+    ]);
+    
+    $user->syncDetail([
+        'is_company' => true,
+        'status' => 1,
+        'code' => 'CODE',
+        'name' => 'DUMMY COMPANY',
+    ]);
+    
+    $user->fresh('detail');
+
+    $detail = $user->detail;
+    [...]
+```
+
+or
+
+```php
+    [...]
+    $company = Company::with('detail')->first();
+    
+    $company->syncDetail([
+        'is_company' => true,
+        'status' => 1,
+        'code' => 'CODE',
+        'name' => 'DUMMY COMPANY',
+    ]);
+
+    $detail = $company->detail;
+    [...]
+```
+
+## Relations
+Traits help you to walk into relations:
+
+```php
+    $detail = Detail::with('owner')->get();
+    $user = $detail->owner;
+
+    [...]
+
+    $biker = Biker::with('detail')->first();
+    $detail = $biker->detail;
+    [...]
+
+```
+
+## Scopes
+Traits help you to use company and owner scope:
+
+```php
+    $details = Detail::where('status', 1)->isCompany()->get();
+    [...]
+    
+    $user = User::where('email', 'john@doe.com')->first();
+    $detail = Detail::forOwner($user)->first();
+    [...]
+```
+
+## Rules
+Basic rules are:
+
+```php
+$rules = [
+   'is_company' => 'required|boolean',
+    'status' => 'required|max:20',
+    'code' => 'required|max:10',
+    'name' => 'string|max:100',
+    'secondary_email' => 'email',
+    'sdi' => 'max:7',
+    'pec' => 'email',
+    'first_name' => 'string|max:60',
+    'last_name' => 'string|max:60',
+    'phone' => 'string|max:60',
+    'mobile' => 'string|max:60',
+    'fiscal_code' => 'string|max:16',
+    'vat' => 'string|max:13',
+    'postal_code' => 'string|max:6',
+    'city' => 'string|max:30',
+    'country' => 'string|max:2',
+];
+```
+
+You can overwrite the `$rules` as you wish in your model, the validator will do the rest
+
+## Migration
+Feel free to add or delete fields for Detail entity but remember to edit also the `$rules`.
 
 ## Testing
 
@@ -87,6 +185,8 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 - [Daniele Barbaro](https://github.com/danielebarbaro)
 - [All Contributors](../../contributors)
+
+Thanks a lot to [Spatie](https://github.com/spatie) ❤️ for making my life easier
 
 ## License
 
