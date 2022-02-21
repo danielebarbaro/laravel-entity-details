@@ -290,7 +290,7 @@ class DetailTest extends TestCase
         $this->assertSame('CODE', $detail->code);
         $this->assertSame('DUMMY COMPANY', $detail->name);
         $this->assertSame(TestModel::class, $detail->owner_type);
-        $this->assertSame(1, $detail->owner_id);
+        $this->assertEquals(1, $detail->owner_id);
 
         $test_model->syncDetail([
             'is_company' => true,
