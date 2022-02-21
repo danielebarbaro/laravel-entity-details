@@ -47,7 +47,10 @@ class DetailTest extends TestCase
         $this->assertSame('dummy', $test_model->property);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @expectException QueryException
+     */
     public function it_can_not_create_a_detail_without_is_company_set()
     {
         $detail = new Detail();
@@ -61,7 +64,10 @@ class DetailTest extends TestCase
         $this->assertCount(0, Detail::all());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @expectException QueryException
+     */
     public function it_can_not_create_a_detail()
     {
         $detail = new Detail();
@@ -215,7 +221,8 @@ class DetailTest extends TestCase
         $this->assertSame(TestModel::class, $detail->owner_type);
     }
 
-    /** @test
+    /**
+     * @test
      * @expectException ValidateDetailException
      */
     public function it_can_not_sync_detail()

@@ -41,7 +41,8 @@ class EntityValidatorTest extends TestCase
         $this->assertSame($result, $this->details);
     }
 
-    /** @test
+    /**
+     * @test
      * @expectException ValidateDetailException
      */
     public function it_can_catch_an_exception_on_validate_detail_dataset()

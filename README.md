@@ -135,6 +135,29 @@ Traits help you to use company and owner scope:
 ```
 
 ## Rules
+Basic rules are:
+
+```php
+$rules = [
+   'is_company' => 'required|boolean',
+    'status' => 'required|max:20',
+    'code' => 'required|max:10',
+    'name' => 'string|max:100',
+    'secondary_email' => 'email',
+    'sdi' => 'max:7',
+    'pec' => 'email',
+    'first_name' => 'string|max:60',
+    'last_name' => 'string|max:60',
+    'phone' => 'string|max:60',
+    'mobile' => 'string|max:60',
+    'fiscal_code' => 'string|max:16',
+    'vat' => 'string|max:13',
+    'postal_code' => 'string|max:6',
+    'city' => 'string|max:30',
+    'country' => 'string|max:2',
+];
+```
+
 You can overwrite the `$rules` as you wish in your model, the validator will do the rest
 
 ## Migration
