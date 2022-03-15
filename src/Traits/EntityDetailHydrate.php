@@ -50,6 +50,7 @@ trait EntityDetailHydrate
             'postal_code' => 'string|max:6',
             'city' => 'string|max:30',
             'country' => 'string|max:2',
+            'address' => 'string|max:100'
         ];
     }
 }
