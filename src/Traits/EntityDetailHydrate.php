@@ -31,9 +31,9 @@ trait EntityDetailHydrate
         }
     }
 
-    public function getValidationRules()
+    public function getValidationRules(): array
     {
-        return $this->rules ?: [
+        return array_merge([
             'is_company' => 'required|boolean',
             'status' => 'required|max:20',
             'code' => 'required|max:10',
@@ -50,6 +50,8 @@ trait EntityDetailHydrate
             'postal_code' => 'string|max:6',
             'city' => 'string|max:30',
             'country' => 'string|max:2',
-        ];
+            'address' => 'string|max:100',
+            'notes' => 'string',
+        ], $this->rules ?? []);
     }
 }
