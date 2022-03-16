@@ -139,7 +139,7 @@ Basic rules are:
 
 ```php
 $rules = [
-   'is_company' => 'required|boolean',
+    'is_company' => 'required|boolean',
     'status' => 'required|max:20',
     'code' => 'required|max:10',
     'name' => 'string|max:100',
@@ -155,6 +155,8 @@ $rules = [
     'postal_code' => 'string|max:6',
     'city' => 'string|max:30',
     'country' => 'string|max:2',
+    'address' => 'string|max:100',
+    'notes' => 'string',
 ];
 ```
 
